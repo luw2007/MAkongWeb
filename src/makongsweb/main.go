@@ -1,15 +1,15 @@
 // Copyright (C) 2013 Andras Belicza. All rights reserved.
-// 
+//
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -18,9 +18,8 @@ package main
 
 import (
 	"code.google.com/p/gowut/gwu"
-	"github.com/bitly/go-simplejson"
-
 	"fmt"
+	"github.com/bitly/go-simplejson"
 	"libmakong"
 	"os"
 	"strconv"
@@ -236,12 +235,12 @@ func buildPrivateWins(sess gwu.Session) {
 	createDemo("用户信息", buildUserInfoPage)
 	createDemo("好友信息", buildFriendsPage)
 	createDemo("收集排行榜", buildRankingPage)
+	createDemo("足球队查询", buildFootbool)
 
 	links.AddVSpace(5)
 	l = gwu.NewLabel("TODO")
 	l.Style().SetFontWeight(gwu.FONT_WEIGHT_BOLD).SetDisplay(gwu.DISPLAY_BLOCK)
 	links.Add(l)
-	createDemo("模拟器", buildComingsoonDemo)
 	createDemo("卡片浏览", buildComingsoonDemo)
 	createDemo("模拟器", buildComingsoonDemo)
 	links.AddVConsumer()
@@ -357,26 +356,51 @@ func buildFriendsPage(event gwu.Event) gwu.Comp {
 
 func buildRankingPage(event gwu.Event) gwu.Comp {
 	p := gwu.NewPanel()
-	query_string := post_data.Phone + "&groupId=" + strconv.Itoa(post_data.GroupId) + "&serverNo=" + post_data.ServerNo + "&userId=" + post_data.UserId
+	query_string := "?phone=" + post_data.Phone + "&groupId=" + strconv.Itoa(post_data.GroupId) + "&serverNo=" + post_data.ServerNo + "&userId=" + post_data.UserId
 	l := gwu.NewLabel("少女之心")
 	l.Style().SetFontWeight(gwu.FONT_WEIGHT_BOLD).SetDisplay(gwu.DISPLAY_BLOCK)
 	p.Add(l)
 
-	_url := "http://www.niuxba.com/ma/backend/cgi-bin/getZsjRankInfo.php?phone=" + query_string
+	_url := "http://www.niuxba.com/ma/backend/cgi-bin/getZsjRankInfo.php" + query_string
 	p.Add(gwu.NewLink("我的排名", _url))
-	_url = "http://www.niuxba.com/ma/backend/cgi-bin/getZsjFriendRank.php?phone=" + query_string
+	_url = "http://www.niuxba.com/ma/backend/cgi-bin/getZsjFriendRank.php" + query_string
 	p.Add(gwu.NewLink("好友排名", _url))
 
 	l = gwu.NewLabel("比基尼")
 	l.Style().SetFontWeight(gwu.FONT_WEIGHT_BOLD).SetDisplay(gwu.DISPLAY_BLOCK)
 	p.Add(l)
 	p.Add(l)
-	_url = "http://www.niuxba.com/ma/backend/cgi-bin/getRankInfo.php?phone=" + query_string
+	_url = "http://www.niuxba.com/ma/backend/cgi-bin/getRankInfo.php" + query_string
 	p.Add(gwu.NewLink("我的排名", _url))
-	_url = "http://www.niuxba.com/ma/backend/cgi-bin/getFriendRank.php?phone=" + query_string
+	_url = "http://www.niuxba.com/ma/backend/cgi-bin/getFriendRank.php" + query_string
 	p.Add(gwu.NewLink("好友排名", _url))
 
 	return p
+}
+
+func buildFootbool(event gwu.Event) gwu.Comp {
+	p := gwu.NewPanel()
+	query_string := "?phone=" + post_data.Phone + "&groupId=" + strconv.Itoa(post_data.GroupId) + "&serverNo=" + post_data.ServerNo + "&userId=" + post_data.UserId
+
+	html := "<div class=\"football-query\"><form name=\"cardsearch\" action=\"http://www.niuxba.com/ma/backend/cgi-bin/getFootball2.php" + query_string + "\" method=\"post\" onsubmit=\"return form(this)\"><section class=\"append\"> <input type=\"text\" name=\"keyword\" placeholder=\"请输入玩家名称关键字\" id=\"keyword_text\" value=\"\"> <input type=\"submit\" value=\"查 询\" id=\"query_btn\"> </section> </form> </div>"
+
+	p.Add(gwu.NewHtml(html))
+
+	return p
+	//p.Add(gwu.NewLabel("对方昵称"))
+	//tb := gwu.NewTextBox("")
+	//tb.Style().SetWidthPx(160)
+	//p.Add(tb)
+	//b := gwu.NewButton("查询")
+	//b.AddEHandlerFunc(func(e gwu.Event) {
+	//	html := libmakong.Get_football(post_data, tb.Text())
+	//	h := gwu.NewHtml(string(html))
+	//	p.Add(h)
+	//	e.ReloadWin("main")
+	//}, gwu.ETYPE_CLICK)
+	//p.Add(b)
+	return p
+
 }
 
 func buildComingsoonDemo(event gwu.Event) gwu.Comp {

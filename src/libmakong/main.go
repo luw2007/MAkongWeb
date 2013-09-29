@@ -83,6 +83,20 @@ func Get_ranking(post_data User) []byte {
 
 	return get_niuxba(_url)
 }
+func Get_football(post_data User, keyword string) []byte {
+	_url := "http: //www.niuxba.com/ma/backend/cgi-bin/getFootball2.php?phone=" + post_data.Phone + "&groupId=" + string(post_data.GroupId) + "&serverNo=" + post_data.ServerNo + "&userId=" + post_data.UserId
+	resp, err := http.PostForm(_url, url.Values{"keyword": {keyword}})
+	if err != nil {
+		// handle error
+	}
+	defer resp.Body.Close()
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		//
+	}
+	return body
+
+}
 
 func Get_friends_info(data string) []byte {
 	body := post_niuxba("http://www.niuxba.com/ma/backend/cgi-bin/getFriendInfo.php", data)
