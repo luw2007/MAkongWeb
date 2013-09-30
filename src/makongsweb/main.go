@@ -366,6 +366,15 @@ func buildRankingPage(event gwu.Event) gwu.Comp {
 	_url = "http://www.niuxba.com/ma/backend/cgi-bin/getZsjFriendRank.php" + query_string
 	p.Add(gwu.NewLink("好友排名", _url))
 
+	l = gwu.NewLabel("紫水晶")
+	l.Style().SetFontWeight(gwu.FONT_WEIGHT_BOLD).SetDisplay(gwu.DISPLAY_BLOCK)
+	p.Add(l)
+	p.Add(l)
+	_url = "http://www.niuxba.com/ma/backend/cgi-bin/getBpRankInfo.php" + query_string
+	p.Add(gwu.NewLink("我的排名", _url))
+	_url = "http://www.niuxba.com/ma/backend/cgi-bin/getBpFriendRank.php" + query_string
+	p.Add(gwu.NewLink("好友排名", _url))
+
 	l = gwu.NewLabel("比基尼")
 	l.Style().SetFontWeight(gwu.FONT_WEIGHT_BOLD).SetDisplay(gwu.DISPLAY_BLOCK)
 	p.Add(l)
