@@ -40,7 +40,7 @@ func plural(i int) string {
 }
 
 func Version() string {
-	version := "0.4.1"
+	version := "0.4.2"
 	return version
 }
 
