@@ -40,7 +40,7 @@ func plural(i int) string {
 }
 
 func Version() string {
-	version := "0.4"
+	version := "0.4.1"
 	return version
 }
 
@@ -334,13 +334,14 @@ func buildFriendsPage(event gwu.Event) gwu.Comp {
 	if err != nil {
 		fmt.Println("json err:", err)
 	}
-	html := "<table><tr><td>昵称</td><td><级别></td><td><活跃度></td><td><好友数></td></tr>"
+	html := "<table><tr><td>编号</td><td>昵称</td><td><级别></td><td><活跃度></td><td><好友数></td></tr>"
 
 	//name	level active now/max
 
 	for _, friend := range friends {
 		m := friend.(map[string]interface{})
 		html += "<tr><td>" +
+			m["id"].(string) + "</td><td>" +
 			m["name"].(string) + "</td><td>" +
 			m["level"].(string) + "</td><td>" +
 			m["active"].(string) + "</td><td>" +
@@ -357,18 +358,25 @@ func buildFriendsPage(event gwu.Event) gwu.Comp {
 func buildRankingPage(event gwu.Event) gwu.Comp {
 	p := gwu.NewPanel()
 	query_string := "?phone=" + post_data.Phone + "&groupId=" + strconv.Itoa(post_data.GroupId) + "&serverNo=" + post_data.ServerNo + "&userId=" + post_data.UserId
-	l := gwu.NewLabel("少女之心")
+
+	l := gwu.NewLabel("小御坂妹妹")
 	l.Style().SetFontWeight(gwu.FONT_WEIGHT_BOLD).SetDisplay(gwu.DISPLAY_BLOCK)
 	p.Add(l)
+	_url := "http://www.niuxba.com/ma/backend/cgi-bin/getSisterRankInfo.php" + query_string
+	p.Add(gwu.NewLink("我的排名", _url))
+	_url = "http://www.niuxba.com/ma/backend/cgi-bin/getSisterFriendRank.php" + query_string
+	p.Add(gwu.NewLink("好友排名", _url))
 
-	_url := "http://www.niuxba.com/ma/backend/cgi-bin/getZsjRankInfo.php" + query_string
+	l = gwu.NewLabel("少女之心")
+	l.Style().SetFontWeight(gwu.FONT_WEIGHT_BOLD).SetDisplay(gwu.DISPLAY_BLOCK)
+	p.Add(l)
+	_url = "http://www.niuxba.com/ma/backend/cgi-bin/getZsjRankInfo.php" + query_string
 	p.Add(gwu.NewLink("我的排名", _url))
 	_url = "http://www.niuxba.com/ma/backend/cgi-bin/getZsjFriendRank.php" + query_string
 	p.Add(gwu.NewLink("好友排名", _url))
 
 	l = gwu.NewLabel("紫水晶")
 	l.Style().SetFontWeight(gwu.FONT_WEIGHT_BOLD).SetDisplay(gwu.DISPLAY_BLOCK)
-	p.Add(l)
 	p.Add(l)
 	_url = "http://www.niuxba.com/ma/backend/cgi-bin/getBpRankInfo.php" + query_string
 	p.Add(gwu.NewLink("我的排名", _url))
@@ -377,7 +385,6 @@ func buildRankingPage(event gwu.Event) gwu.Comp {
 
 	l = gwu.NewLabel("比基尼")
 	l.Style().SetFontWeight(gwu.FONT_WEIGHT_BOLD).SetDisplay(gwu.DISPLAY_BLOCK)
-	p.Add(l)
 	p.Add(l)
 	_url = "http://www.niuxba.com/ma/backend/cgi-bin/getRankInfo.php" + query_string
 	p.Add(gwu.NewLink("我的排名", _url))
