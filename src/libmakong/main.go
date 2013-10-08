@@ -75,7 +75,7 @@ func post_niuxba(_url string, data string) []byte {
 	if err != nil {
 		//
 	}
-	print "data": body
+	fmt.Println("data", string(body))
 	return body
 }
 
@@ -100,7 +100,7 @@ func Get_football(post_data User, keyword string) []byte {
 }
 
 func Get_friends_info(data string) []byte {
-	body := post_niuxba("http://www.niuxba.com/ma/backend/cgi-bin/getFriendInfo.php", data)\
+	body := post_niuxba("http://www.niuxba.com/ma/backend/cgi-bin/getFriendInfo.php", data)
 	return body
 }
 
