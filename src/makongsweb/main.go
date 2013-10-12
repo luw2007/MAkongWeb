@@ -40,7 +40,7 @@ func plural(i int) string {
 }
 
 func Version() string {
-	version := "0.4.2"
+	version := "0.4.3"
 	return version
 }
 
@@ -82,7 +82,7 @@ func buildLoginWin(s gwu.Session) {
 	table.Add(pb, 1, 1)
 
 	table.Add(gwu.NewLabel("第几区:"), 2, 0)
-	lb := gwu.NewListBox([]string{"一区", "二区"})
+	lb := gwu.NewListBox([]string{"一区", "二区", "三区"})
 	lb.SetSelected(1, true)
 	lb.AddEHandlerFunc(func(e gwu.Event) {
 		table.Add(gwu.NewLabel(lb.SelectedValue()+":"), 2, 0)
